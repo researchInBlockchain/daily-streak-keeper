@@ -1,0 +1,89 @@
+body.dash { padding-bottom: 48px; }
+.wrap { max-width: 920px; margin: 0 auto; padding: 0 16px; }
+main.wrap { display: grid; gap: 18px; margin-top: 20px; }
+
+.topbar { background: var(--card); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 2; }
+.topbar-inner { display: flex; align-items: center; gap: 12px; padding: 12px 16px; flex-wrap: wrap; }
+.topbar h1 { font-size: 18px; }
+.nav { display: flex; gap: 14px; flex-wrap: wrap; }
+.nav a { text-decoration: none; color: var(--muted); }
+.nav a:hover { color: var(--accent); }
+
+.section-head { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.section-head h2 { font-size: 17px; }
+.section-head > :last-child:not(h2) { margin-left: auto; }
+section { scroll-margin-top: 80px; }
+
+.week-wrap { margin-top: 18px; }
+details summary { cursor: pointer; margin-top: 14px; color: var(--accent); }
+
+/* setup steps */
+.steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.step { display: grid; grid-template-columns: 28px 1fr; gap: 12px; padding: 12px 0; border-top: 1px solid var(--border); }
+.step:first-child { border-top: none; }
+.step h3 { font-size: 15px; margin-bottom: 2px; }
+.step p { margin: 2px 0 8px; }
+.step-dot {
+  width: 24px; height: 24px; border-radius: 50%;
+  border: 2px solid var(--border);
+  margin-top: 1px;
+  display: grid; place-items: center;
+  font-size: 13px; font-weight: 700;
+}
+.step.done .step-dot { background: var(--ok); border-color: var(--ok); color: #fff; }
+.step.done .step-dot::after { content: "✓"; }
+.step.todo .step-dot { border-color: var(--warn); }
+.step.todo .step-dot::after { content: "!"; color: var(--warn); }
+.step.optional .step-dot { border-style: dashed; }
+.choice { display: flex; gap: 8px; align-items: flex-start; margin: 6px 0; cursor: pointer; }
+.choice input { margin-top: 4px; }
+.switch-row { display: flex; gap: 8px; align-items: center; cursor: pointer; }
+
+.ai-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 14px; margin-top: 12px; }
+.ai-grid label { display: grid; gap: 4px; font-size: 13px; font-weight: 600; }
+.ai-grid .wide { grid-column: 1 / -1; }
+.ai-grid.off { opacity: .5; pointer-events: none; }
+.key-row { display: flex; gap: 6px; }
+.key-row input { flex: 1; }
+#ai-result.ok { color: var(--ok); }
+#ai-result.bad { color: var(--bad); }
+
+/* how it works */
+.flow { list-style: none; counter-reset: f; margin: 0 0 10px; padding: 0; display: grid; gap: 8px; }
+.flow li { counter-increment: f; display: grid; grid-template-columns: 28px 90px 1fr; gap: 10px; align-items: baseline; }
+.flow li::before {
+  content: counter(f);
+  width: 24px; height: 24px; border-radius: 50%;
+  background: var(--accent-soft); color: var(--accent);
+  display: grid; place-items: center; font-weight: 700; font-size: 12px;
+}
+
+/* history */
+.table-wrap { overflow-x: auto; }
+.table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.table th { text-align: left; color: var(--muted); font-weight: 600; padding: 6px 8px; border-bottom: 1px solid var(--border); white-space: nowrap; }
+.table td { padding: 7px 8px; border-bottom: 1px solid var(--border); }
+.table a { color: var(--text); text-decoration: none; }
+.table a:hover { color: var(--accent); }
+
+/* settings */
+.settings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 24px; }
+.settings-grid label:not(.switch-row) { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.settings-grid input[type=number] { width: 72px; }
+
+/* log */
+.log { list-style: none; margin: 0; padding: 0; max-height: 320px; overflow: auto; font: 12.5px/1.6 ui-monospace, "Cascadia Code", Consolas, monospace; }
+.log li { display: grid; grid-template-columns: 150px 1fr; gap: 10px; padding: 2px 0; border-bottom: 1px dashed var(--border); }
+.log .warn { color: var(--warn); }
+.log .error { color: var(--bad); }
+.log time { color: var(--muted); }
+
+.about ul { margin: 8px 0 0; padding-left: 18px; }
+.about h2 { font-size: 15px; }
+
+@media (max-width: 640px) {
+  .ai-grid, .settings-grid { grid-template-columns: 1fr; }
+  .flow li { grid-template-columns: 28px 1fr; }
+  .flow li span { grid-column: 2; }
+  .log li { grid-template-columns: 1fr; gap: 0; }
+}

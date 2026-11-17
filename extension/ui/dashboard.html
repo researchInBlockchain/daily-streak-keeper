@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Streak Keeper - Dashboard</title>
+  <link rel="stylesheet" href="ui.css">
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+<body class="dash">
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <img src="../icons/icon48.png" width="28" height="28" alt="">
+      <div>
+        <h1>Daily Streak Keeper</h1>
+        <div class="muted small">Keeps your LeetCode daily streak going, even on busy days.</div>
+      </div>
+      <span class="spacer"></span>
+      <nav class="nav small">
+        <a href="#today">Today</a>
+        <a href="#setup">Setup guide</a>
+        <a href="#how">How it works</a>
+        <a href="#history">History</a>
+        <a href="#settings">Settings</a>
+        <a href="#log">Activity</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <!-- Today -->
+    <section id="today" class="card">
+      <div class="section-head"><h2>Today</h2><span id="today-date" class="muted small"></span></div>
+      <div id="today-status"></div>
+      <div id="today-actions" class="actions"></div>
+      <details id="code-box" hidden>
+        <summary>Show the code that was used</summary>
+        <pre class="code"><code id="code"></code></pre>
+      </details>
+      <div class="week-wrap">
+        <div class="label">Last 14 days</div>
+        <div id="week" class="week-dots"></div>
+      </div>
+    </section>
+
+    <!-- Setup guide -->
+    <section id="setup" class="card">
+      <div class="section-head"><h2>Setup guide</h2><span id="setup-progress" class="pill"></span></div>
+      <p class="muted">Four short steps. Changes save automatically.</p>
+      <ol class="steps">
+        <li id="step-login" class="step">
+          <div class="step-dot"></div>
+          <div class="step-body">
+            <h3>Log in to LeetCode in this browser</h3>
+            <p class="muted small">The extension uses the login you already have in this browser. It never asks for or stores your password.</p>
+            <div id="login-state" class="small"></div>
+            <div class="actions"><a class="btn" id="login-btn" href="https://leetcode.com/accounts/login/" target="_blank" rel="noopener">Open leetcode.com</a></div>
+          </div>
+        </li>
+        <li id="step-lang" class="step done">
+          <div class="step-dot"></div>
+          <div class="step-body">
+            <h3>Pick your language</h3>
+            <p class="muted small">Solutions are submitted in this language.</p>
+            <select id="language" aria-label="Language"></select>
+          </div>
+        </li>
+        <li id="step-mode" class="step done">
+          <div class="step-dot"></div>
+          <div class="step-body">
+            <h3>Choose how it submits</h3>
+            <label class="choice"><input type="radio" name="mode" value="auto"> <span><b>Automatically</b>: test the solution on the examples, then submit it. Fully hands-off.</span></label>
+            <label class="choice"><input type="radio" name="mode" value="ask"> <span><b>Ask me first</b>: test it, then notify you. You read the code and click Submit.</span></label>
+          </div>
+        </li>
+        <li id="step-ai" class="step optional">
+          <div class="step-dot"></div>
+          <div class="step-body">
+            <h3>Optional: add a free AI backup</h3>
+            <p class="muted small">Most days a known, community-written solution exists. On days it doesn't (brand-new problems), a free AI can write one. It is tested on the examples first and fixed with the error output if it fails.</p>
+            <label class="switch-row"><input type="checkbox" id="useAI"> Use an AI when no known solution works</label>
+            <div id="ai-fields" class="ai-grid">
+              <label>Provider <select id="ai-provider"></select></label>
+              <label>Model <input type="text" id="ai-model" placeholder="default"></label>
+              <label class="wide">API key
+                <span class="key-row"><input type="password" id="ai-key" autocomplete="off" spellcheck="false" placeholder="Paste your key"><button type="button" id="ai-show" class="icon-btn" title="Show / hide">👁</button></span>
+              </label>
+              <p id="ai-help" class="wide muted small"></p>
+              <div class="wide actions"><button type="button" id="ai-test" class="primary">Save &amp; test key</button><span id="ai-result" class="small"></span></div>
+            </div>
+          </div>
+        </li>
+        <li id="step-try" class="step">
+          <div class="step-dot"></div>
+          <div class="step-body">
+            <h3>Try it</h3>
+            <p class="muted small">Run it once now to check everything works. After that it runs by itself.</p>
+            <div class="actions"><button type="button" id="try-run" class="primary">Solve today's problem now</button></div>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <!-- How it works -->
+    <section id="how" class="card">
+      <div class="section-head"><h2>How it works</h2></div>
+      <ol class="flow">
+        <li><b>When</b><span>Every 20 minutes while Chrome is open, at browser start-up, when the laptop wakes up or comes back online. Once today's problem is solved, every later check stops immediately.</span></li>
+        <li><b>Fetch</b><span>Reads today's daily problem from LeetCode.</span></li>
+        <li><b>Find</b><span>Looks for a known solution in the open-source <a href="https://github.com/doocs/leetcode" target="_blank" rel="noopener">doocs/leetcode</a> collection. If none works and the AI backup is on, the AI writes one.</span></li>
+        <li><b>Check</b><span>Runs it on the problem's example tests, like pressing <i>Run</i>.</span></li>
+        <li><b>Submit</b><span>Submits it, like pressing <i>Submit</i>, at most <span id="flow-max">3</span> times a day. In "Ask me first" mode it waits for your click.</span></li>
+        <li><b>Tell you</b><span>Shows a notification and records the result here.</span></li>
+      </ol>
+      <p class="muted small">LeetCode only accepts requests from its own pages, so while working the extension briefly opens a leetcode.com tab in the background and closes it when done.</p>
+    </section>
+
+    <!-- History -->
+    <section id="history" class="card">
+      <div class="section-head"><h2>History</h2><span id="history-summary" class="muted small"></span></div>
+      <div class="table-wrap">
+        <table class="table">
+          <thead><tr><th>Date (UTC)</th><th>Problem</th><th>Difficulty</th><th>Result</th><th>How</th></tr></thead>
+          <tbody id="history-rows"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Settings -->
+    <section id="settings" class="card">
+      <div class="section-head"><h2>Settings</h2><span id="saved" class="pill ok" hidden>Saved</span></div>
+      <div class="settings-grid">
+        <label class="switch-row"><input type="checkbox" id="enabled"> Run automatically</label>
+        <label class="switch-row"><input type="checkbox" id="notify"> Show notifications</label>
+        <label class="switch-row"><input type="checkbox" id="useRepo"> Use known solutions (doocs/leetcode)</label>
+        <label>Max submissions per day <input type="number" id="maxSubmissions" min="1" max="10"></label>
+        <label>Max AI fix rounds <input type="number" id="maxAIAttempts" min="1" max="8"></label>
+      </div>
+    </section>
+
+    <!-- Log -->
+    <section id="log" class="card">
+      <div class="section-head"><h2>Activity</h2><button type="button" id="clear-log" class="small">Clear</button></div>
+      <ul id="log-rows" class="log"></ul>
+    </section>
+
+    <!-- Fair use -->
+    <section class="card about">
+      <h2>Privacy &amp; fair use</h2>
+      <ul class="muted small">
+        <li>Everything is stored only in this browser. There is no server; nothing is sent to the developer.</li>
+        <li>Network access: leetcode.com (your own account), cdn.jsdelivr.net (public solutions), and, only if you turn it on, the AI provider you choose, with your own key.</li>
+        <li>Solutions from doocs/leetcode are written by its community (CC BY-SA 4.0). This tool keeps your streak; it does not do your learning for you. "Ask me first" mode is a good way to read each day's solution.</li>
+        <li>Not affiliated with or endorsed by LeetCode. Automated submissions may conflict with LeetCode's terms of service. You use it on your own account at your own risk.</li>
+      </ul>
+    </section>
+  </main>
+  <script type="module" src="dashboard.js"></script>
+</body>
+</html>

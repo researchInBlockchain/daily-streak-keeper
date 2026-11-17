@@ -1,0 +1,12 @@
+{
+  "name": "daily-streak-keeper",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Chrome/Edge extension that keeps your LeetCode daily streak.",
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/lib.test.js tests/solver.test.js",
+    "test:live": "node --test tests/live.test.js"
+  },
+  "license": "MIT"
+}

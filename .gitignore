@@ -1,0 +1,9 @@
+dist/
+node_modules/
+__pycache__/
+*.pem
+python-agent/config.json
+python-agent/state.json
+python-agent/agent.log
+python-agent/cookie_sync.log
+python-agent/solutions/

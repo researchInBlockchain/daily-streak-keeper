@@ -1,0 +1,10 @@
+{
+  "manifest_version": 3,
+  "name": "LeetCode Daily Agent - cookie sync",
+  "version": "1.0",
+  "description": "Keeps the LeetCode Daily Agent's login fresh by passing your leetcode.com session cookie to it on this computer.",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxWelgTb2ZrlPGigU+wZjtcJpZz4M1Gxo53MLcMc0NA0jDpFIp7ml0xdx7SBr/33fgg1y1DcIvayfUrXrJCXNx+PumXvZuy/PXjF/sY7MeZX4HUDbjahyZoh5z0a1Ixim94iF8hVMgOFmWv+xxb4EXwtp5dUO0gIwfiz6QRpQsk9JWjpuasNJ4YKAJZnOQHlNhuu2kgc5cg3Cp/LoJPZNmQBLlFAXKiutn1cvMK9+lzqsoDjsCopqO6Z6KhtgnyylirIG8L4VeaeagtsJT7AgxmWAa4SMUlS+YvPAg9+vPPTbN8dBNlYC340C3FoZHD/dH3diDSE53colzepqm8wYcQIDAQAB",
+  "permissions": ["cookies", "nativeMessaging", "alarms"],
+  "host_permissions": ["https://leetcode.com/*"],
+  "background": { "service_worker": "background.js" }
+}

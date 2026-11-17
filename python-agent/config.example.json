@@ -1,0 +1,15 @@
+{
+  "leetcode_session": "PASTE_LEETCODE_SESSION_COOKIE_HERE",
+  "csrftoken": "PASTE_CSRFTOKEN_COOKIE_HERE",
+  "language": "python3",
+  "sources": ["github", "llm"],
+  "llm": {
+    "provider": "gemini",
+    "model": "gemini-flash-latest",
+    "api_key": "",
+    "base_url": ""
+  },
+  "max_llm_attempts": 4,
+  "max_submissions": 3,
+  "notify": true
+}

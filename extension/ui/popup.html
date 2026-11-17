@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Streak Keeper</title>
+  <link rel="stylesheet" href="ui.css">
+</head>
+<body class="popup">
+  <header class="bar">
+    <img src="../icons/icon32.png" width="20" height="20" alt="">
+    <strong>Streak Keeper</strong>
+    <span class="spacer"></span>
+    <button id="open-dash" class="icon-btn" title="Dashboard, setup guide and settings" aria-label="Open dashboard">⚙</button>
+  </header>
+
+  <section class="card">
+    <div id="status"></div>
+    <div id="actions" class="actions"></div>
+  </section>
+
+  <div id="hint" class="hint" hidden></div>
+
+  <section>
+    <div class="label">Last 7 days</div>
+    <div id="week" class="week-dots"></div>
+  </section>
+
+  <footer id="footer" class="muted small"></footer>
+  <script type="module" src="popup.js"></script>
+</body>
+</html>
