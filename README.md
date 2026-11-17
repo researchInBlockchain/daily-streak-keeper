@@ -2,7 +2,9 @@
 
 A Chrome / Edge extension that keeps your LeetCode daily streak. While your browser is open, it checks the problem of the day, finds a working solution, runs it on the example tests and submits it. It needs no server, no password and no paid API.
 
-![icon](extension/icons/icon128.png)
+**Website & download:** https://researchinblockchain.github.io/daily-streak-keeper/
+
+<img src="docs/img/popup-accepted.png" width="300" alt="Popup: today's problem solved, 7-day streak">
 
 ## Features
 
@@ -16,9 +18,9 @@ A Chrome / Edge extension that keeps your LeetCode daily streak. While your brow
 
 ## Install (developer mode)
 
-1. Download or clone this repo.
+1. Download **[daily-streak-keeper.zip](https://github.com/researchInBlockchain/daily-streak-keeper/releases/latest/download/daily-streak-keeper.zip)** and unzip it somewhere permanent. (Or clone this repo and use the `extension/` folder.)
 2. Open `chrome://extensions` (or `edge://extensions`) and turn on **Developer mode**.
-3. Click **Load unpacked** and select the `extension/` folder.
+3. Click **Load unpacked** and select the unzipped folder (the one containing `manifest.json`).
 4. The setup guide opens. Log in to leetcode.com in the same browser and click **Solve today's problem now**.
 
 ## How it works
@@ -90,3 +92,11 @@ Not affiliated with or endorsed by LeetCode. Automated submissions may conflict 
 ## License
 
 MIT
+
+## Releasing a new version
+
+1. Bump `version` in `extension/manifest.json`.
+2. Run `python scripts/package.py`.
+3. Run `gh release create vX.Y.Z dist/daily-streak-keeper.zip dist/daily-streak-keeper-X.Y.Z.zip`. The website's Download button always points to the latest release's `daily-streak-keeper.zip`.
+
+Website: `docs/`, served by GitHub Pages. Screenshots: serve the repo root (`python -m http.server`), open `scripts/screens/harness.html?page=dashboard` (or `page=popup`, `state=ready|pending`) and capture it.

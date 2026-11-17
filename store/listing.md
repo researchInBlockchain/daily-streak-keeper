@@ -48,7 +48,7 @@ Solve and submit the LeetCode daily problem on the user's own account so their d
 
 ## Data usage disclosures
 - Collects: "Authentication information" (uses the existing LeetCode session cookie, locally only) and "Website content" (problem statements). Not sold, not used for unrelated purposes, not used for creditworthiness.
-- Privacy policy URL: link to `store/privacy-policy.md` on GitHub (or GitHub Pages).
+- Privacy policy URL: https://researchinblockchain.github.io/daily-streak-keeper/privacy.html
 
 ## Screenshots (1280×800 or 640×400)
 1. Popup showing "Solved. Accepted" with the 7-day strip

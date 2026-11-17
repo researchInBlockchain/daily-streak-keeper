@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Daily Streak Keeper for LeetCode</title>
+  <meta name="description" content="Free Chrome and Edge extension that keeps your LeetCode daily streak: it finds a working solution to the problem of the day, tests it on the examples and submits it.">
+  <link rel="icon" href="img/icon128.png">
+  <style>
+    :root {
+      --bg: #f6f7fb; --card: #fff; --text: #1c1f2a; --muted: #5f6678; --border: #e3e6ee;
+      --accent: #5b5bd6; --accent-2: #7c3aed; --accent-soft: #ececfc; --ok: #15803d; --warn-soft: #fdf1df;
+      --code-bg: #eef0f6;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root { --bg: #12141a; --card: #1b1e27; --text: #e8eaf0; --muted: #9aa1b2; --border: #2b2f3b;
+        --accent: #8b8bf0; --accent-2: #a78bfa; --accent-soft: #262848; --ok: #4ade80; --warn-soft: #33291a; --code-bg: #232733; }
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+    a { color: var(--accent); }
+    .wrap { max-width: 1040px; margin: 0 auto; padding: 0 16px; }
+    header.top { display: flex; align-items: center; gap: 10px; padding: 16px 0; }
+    header.top img { width: 32px; height: 32px; }
+    header.top b { font-size: 17px; }
+    header.top nav { margin-left: auto; display: flex; gap: 18px; font-size: 15px; }
+    header.top nav a { color: var(--muted); text-decoration: none; }
+    header.top nav a:hover { color: var(--accent); }
+
+    .hero { display: grid; grid-template-columns: 1.1fr .9fr; gap: 40px; align-items: center; padding: 40px 0 56px; }
+    .hero h1 { font-size: clamp(32px, 5vw, 48px); line-height: 1.1; margin: 0 0 16px; letter-spacing: -.02em; }
+    .hero h1 span { background: linear-gradient(90deg, var(--accent), var(--accent-2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .hero p.lead { font-size: 19px; color: var(--muted); margin: 0 0 26px; }
+    .cta { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 22px; border-radius: 10px; font-weight: 600; text-decoration: none; border: 1px solid var(--border); color: var(--text); background: var(--card); }
+    .btn.primary { background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #fff; border: none; box-shadow: 0 6px 20px -8px var(--accent); }
+    .btn:hover { transform: translateY(-1px); }
+    .meta { font-size: 13.5px; color: var(--muted); margin-top: 12px; }
+    .hero-shot { position: relative; }
+    .hero-shot img { width: 100%; max-width: 384px; display: block; margin: 0 auto; border-radius: 16px; border: 1px solid var(--border); box-shadow: 0 30px 60px -30px rgba(40, 40, 120, .45); }
+
+    section { padding: 48px 0; }
+    section h2 { font-size: 28px; margin: 0 0 8px; letter-spacing: -.01em; }
+    section .sub { color: var(--muted); margin: 0 0 28px; }
+
+    .steps { counter-reset: s; display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; list-style: none; padding: 0; margin: 0; }
+    .steps li { counter-increment: s; background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 20px; }
+    .steps li::before { content: counter(s); display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: var(--accent-soft); color: var(--accent); font-weight: 700; margin-bottom: 10px; }
+    .steps h3 { margin: 0 0 6px; font-size: 17px; }
+    .steps p { margin: 0; color: var(--muted); font-size: 14.5px; }
+    code { background: var(--code-bg); padding: 1px 6px; border-radius: 6px; font-size: .92em; }
+    .note { margin-top: 18px; background: var(--warn-soft); border-radius: 12px; padding: 12px 16px; font-size: 14.5px; }
+
+    .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .feature { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 20px; }
+    .feature h3 { margin: 0 0 6px; font-size: 16.5px; }
+    .feature p { margin: 0; color: var(--muted); font-size: 14.5px; }
+    .feature .ic { font-size: 22px; margin-bottom: 6px; }
+
+    .shot-wide img { width: 100%; border-radius: 14px; border: 1px solid var(--border); display: block; }
+
+    .flow { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; list-style: none; padding: 0; margin: 0; }
+    .flow li { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 14px; font-size: 14px; color: var(--muted); position: relative; }
+    .flow b { display: block; color: var(--text); font-size: 15px; margin-bottom: 2px; }
+
+    details { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 14px 18px; margin-bottom: 10px; }
+    summary { cursor: pointer; font-weight: 600; }
+    details p { color: var(--muted); margin: 10px 0 2px; }
+
+    footer { border-top: 1px solid var(--border); padding: 28px 0 40px; color: var(--muted); font-size: 14px; }
+    footer .row { display: flex; gap: 18px; flex-wrap: wrap; }
+
+    @media (max-width: 860px) {
+      .hero { grid-template-columns: 1fr; padding-top: 16px; }
+      .steps, .features { grid-template-columns: 1fr 1fr; }
+      .flow { grid-template-columns: 1fr 1fr 1fr; }
+      header.top nav { display: none; }
+    }
+    @media (max-width: 540px) {
+      .steps, .features, .flow { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="top">
+      <img src="img/icon128.png" alt="">
+      <b>Daily Streak Keeper</b>
+      <nav>
+        <a href="#install">Install</a>
+        <a href="#features">Features</a>
+        <a href="#how">How it works</a>
+        <a href="#faq">FAQ</a>
+        <a href="https://github.com/researchInBlockchain/daily-streak-keeper">GitHub</a>
+      </nav>
+    </header>
+
+    <div class="hero">
+      <div>
+        <h1>Never lose your <span>LeetCode daily streak</span> again.</h1>
+        <p class="lead">A free Chrome &amp; Edge extension that checks the problem of the day, finds a working solution, tests it on the examples and submits it, while you get on with your day.</p>
+        <div class="cta">
+          <a class="btn primary" id="download" href="https://github.com/researchInBlockchain/daily-streak-keeper/releases/latest/download/daily-streak-keeper.zip">⬇ Download extension (.zip)</a>
+          <a class="btn" href="#install">Install guide</a>
+        </div>
+        <div class="meta">Free · open source (MIT) · no account, password or API key needed · Chrome 116+ / Edge</div>
+      </div>
+      <div class="hero-shot"><img src="img/popup-accepted.png" alt="Extension popup showing today's problem solved and a 7-day streak" width="384" height="410"></div>
+    </div>
+  </div>
+
+  <section id="install">
+    <div class="wrap">
+      <h2>Install in about a minute</h2>
+      <p class="sub">It isn't on the Chrome Web Store yet, so you load it yourself. It's safe and takes four steps.</p>
+      <ol class="steps">
+        <li><h3>Download &amp; unzip</h3><p>Click <b>Download extension</b> above, then right-click the zip → <b>Extract All</b> (Windows) or double-click it (Mac). Keep the folder somewhere permanent, like Documents.</p></li>
+        <li><h3>Open extensions</h3><p>Go to <code>chrome://extensions</code> (Edge: <code>edge://extensions</code>) and switch on <b>Developer mode</b>.</p></li>
+        <li><h3>Load it</h3><p>Click <b>Load unpacked</b> and choose the unzipped folder, the one that contains <code>manifest.json</code>.</p></li>
+        <li><h3>Follow the guide</h3><p>A setup page opens. Log in to leetcode.com in the same browser, pick your language, and click <b>Solve today's problem now</b>.</p></li>
+      </ol>
+      <div class="note">Don't delete the unzipped folder: the browser runs the extension from it. To update, download the new zip, replace the folder's contents and click ↻ on the extension's card. Chrome may show a "developer mode extensions" notice at start-up; that's normal for extensions not installed from the Web Store.</div>
+    </div>
+  </section>
+
+  <section id="features">
+    <div class="wrap">
+      <h2>What it does</h2>
+      <p class="sub">Set it up once. After that it works on its own whenever your browser is open.</p>
+      <div class="features">
+        <div class="feature"><div class="ic">⏱</div><h3>Runs by itself</h3><p>Checks every 20 minutes, at browser start-up, when your laptop wakes or comes back online. Once today is solved, it stops checking until tomorrow.</p></div>
+        <div class="feature"><div class="ic">📚</div><h3>Known solutions first</h3><p>Uses the open-source doocs/leetcode collection, which has community solutions for almost every problem.</p></div>
+        <div class="feature"><div class="ic">🧪</div><h3>Tests before submitting</h3><p>Every solution must pass the example tests before it's submitted, and there's a daily submission limit.</p></div>
+        <div class="feature"><div class="ic">🤖</div><h3>Optional free AI backup</h3><p>For brand-new problems, Gemini, Groq or OpenRouter (your own free key) writes a solution and fixes it using the error output.</p></div>
+        <div class="feature"><div class="ic">✋</div><h3>"Ask me first" mode</h3><p>Prefer to read the code? It tests a solution, then waits for you to click Submit.</p></div>
+        <div class="feature"><div class="ic">🔒</div><h3>Private by design</h3><p>Uses your existing browser login. No password, no server, no tracking. Everything stays in your browser.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap shot-wide">
+      <h2>A dashboard that guides you</h2>
+      <p class="sub">Setup checklist, today's status, the code that was submitted, full history and an activity log.</p>
+      <img src="img/dashboard.png" alt="Dashboard with today's status, 14-day streak and the setup guide" width="1280" height="800" loading="lazy">
+    </div>
+  </section>
+
+  <section id="how">
+    <div class="wrap">
+      <h2>How it works</h2>
+      <p class="sub">The same steps you'd do by hand, done for you.</p>
+      <ol class="flow">
+        <li><b>1 · Check</b>Already solved today? Then it stops.</li>
+        <li><b>2 · Fetch</b>Reads today's problem from LeetCode.</li>
+        <li><b>3 · Find</b>Known solution, or the AI if you turned it on.</li>
+        <li><b>4 · Test</b>Runs it on the examples, like pressing Run.</li>
+        <li><b>5 · Submit</b>Like pressing Submit, or waits for you.</li>
+        <li><b>6 · Tell you</b>Notification and history entry.</li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="faq">
+    <div class="wrap">
+      <h2>FAQ</h2>
+      <details><summary>Does it need my LeetCode password?</summary><p>No. It uses the login you already have in your browser. You log in on leetcode.com as usual, and the extension never sees or stores your password.</p></details>
+      <details><summary>Does it work when my browser is closed?</summary><p>No, the browser has to be open at some point during the day. It checks as soon as the browser starts, so opening it once a day is enough.</p></details>
+      <details><summary>Do I need an AI API key?</summary><p>No. Known solutions cover almost every daily problem. The AI backup is optional, for brand-new problems, and uses free tiers (Google Gemini, Groq or OpenRouter) with your own key.</p></details>
+      <details><summary>Why does a leetcode.com tab appear for a few seconds?</summary><p>LeetCode only accepts requests from its own pages, so the extension briefly opens a background leetcode.com tab to do its work, then closes it.</p></details>
+      <details><summary>Which browsers and languages are supported?</summary><p>Chrome 116+ and Microsoft Edge on Windows, Mac and Linux. It works with leetcode.com (not leetcode.cn). Supported languages: Python 3, C++, Java, JavaScript, TypeScript, Go, Rust, C#, Kotlin and C.</p></details>
+      <details><summary>Is this allowed by LeetCode?</summary><p>This project isn't affiliated with or endorsed by LeetCode, and automated submissions may conflict with LeetCode's terms of service. Use it on your own account at your own risk. It keeps a streak; it doesn't teach you algorithms, so try "Ask me first" mode and read each solution.</p></details>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap row">
+      <span>Daily Streak Keeper · MIT licensed</span>
+      <a href="https://github.com/researchInBlockchain/daily-streak-keeper">Source code</a>
+      <a href="https://github.com/researchInBlockchain/daily-streak-keeper/releases">All releases</a>
+      <a href="privacy.html">Privacy policy</a>
+      <span>Not affiliated with LeetCode.</span>
+    </div>
+  </footer>
+</body>
+</html>

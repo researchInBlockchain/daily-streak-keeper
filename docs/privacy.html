@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Privacy Policy - Daily Streak Keeper</title>
+  <link rel="icon" href="img/icon128.png">
+  <style>
+    :root { --bg: #f6f7fb; --card: #fff; --text: #1c1f2a; --muted: #5f6678; --border: #e3e6ee; --accent: #5b5bd6; }
+    @media (prefers-color-scheme: dark) { :root { --bg: #12141a; --card: #1b1e27; --text: #e8eaf0; --muted: #9aa1b2; --border: #2b2f3b; --accent: #8b8bf0; } }
+    body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.65 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+    main { max-width: 760px; margin: 0 auto; padding: 32px 16px 64px; }
+    a { color: var(--accent); }
+    h1 { font-size: 30px; margin: 8px 0 4px; }
+    h2 { font-size: 20px; margin-top: 32px; }
+    .muted { color: var(--muted); }
+    .table-wrap { overflow-x: auto; }
+    table { border-collapse: collapse; width: 100%; font-size: 14.5px; background: var(--card); }
+    th, td { border: 1px solid var(--border); padding: 8px 10px; text-align: left; vertical-align: top; }
+    th { color: var(--muted); }
+  </style>
+</head>
+<body>
+<main>
+  <a href="./">← Daily Streak Keeper</a>
+  <h1>Privacy Policy</h1>
+  <p class="muted">Last updated: 17 November 2026</p>
+
+  <p>Daily Streak Keeper for LeetCode ("the extension") is a browser extension that solves and submits the LeetCode daily problem on the user's own LeetCode account. This policy describes what data it handles.</p>
+
+  <h2>Summary</h2>
+  <ul>
+    <li>The extension has <b>no server</b>. The developer receives <b>no data</b> of any kind.</li>
+    <li>Everything the extension stores stays in the browser's local extension storage on the user's device.</li>
+    <li>The extension never asks for, reads or stores the user's LeetCode password.</li>
+  </ul>
+
+  <h2>Data the extension handles</h2>
+  <div class="table-wrap"><table>
+    <tr><th>Data</th><th>Why</th><th>Where it goes</th></tr>
+    <tr><td>LeetCode session (the login cookie already in the browser)</td><td>To act on the user's own account: read the daily problem, run the example tests, submit</td><td>Used only in requests to leetcode.com. The extension checks whether the cookie exists to tell the user if they are logged in. It does not copy the cookie anywhere.</td></tr>
+    <tr><td>LeetCode username and Premium flag</td><td>Shown in the extension UI</td><td>Stored locally only</td></tr>
+    <tr><td>Daily problem details, solution code, results, activity log</td><td>Shown in the dashboard and history</td><td>Stored locally only</td></tr>
+    <tr><td>Settings, including an optional AI provider API key entered by the user</td><td>To use the AI fallback the user turned on</td><td>Stored locally only. The key is sent only to the AI provider the user selected.</td></tr>
+  </table></div>
+
+  <h2>Network requests</h2>
+  <ul>
+    <li><b>leetcode.com</b>: the user's own account, to read the daily problem and submit solutions.</li>
+    <li><b>cdn.jsdelivr.net</b>: to download publicly available solutions from the open-source doocs/leetcode repository. No user data is sent.</li>
+    <li><b>Optional</b>, only when the user enables it and grants permission: generativelanguage.googleapis.com (Google Gemini), api.groq.com (Groq) or openrouter.ai (OpenRouter). The problem statement and candidate code are sent there, with the user's own API key, to generate a solution. Those services' own privacy policies apply.</li>
+  </ul>
+
+  <h2>Sharing and sale</h2>
+  <p>No data is sold, shared with third parties, used for advertising, or used for any purpose other than the extension's single purpose described above.</p>
+
+  <h2>Removing data</h2>
+  <p>Uninstalling the extension deletes all of its stored data. Activity can also be cleared from the dashboard.</p>
+
+  <h2>Contact</h2>
+  <p>Questions: open an issue on the <a href="https://github.com/researchInBlockchain/daily-streak-keeper/issues">GitHub repository</a>.</p>
+</main>
+</body>
+</html>

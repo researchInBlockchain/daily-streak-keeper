@@ -1,0 +1,28 @@
+<!doctype html>
+<!-- Renders extension/ui/<page>.html with fake data for screenshots.
+     Serve the repo root (python -m http.server) and open
+     /scripts/screens/harness.html?page=dashboard&state=accepted   (state: accepted | ready | pending) -->
+<html lang="en">
+<head><meta charset="utf-8"><title>UI harness</title></head>
+<body>
+<script src="stub.js"></script>
+<script type="module">
+  const params = new URLSearchParams(location.search);
+  const page = params.get('page') || 'dashboard';
+  const base = '/extension/ui/';
+  const doc = new DOMParser().parseFromString(await (await fetch(`${base}${page}.html`)).text(), 'text/html');
+  for (const l of doc.querySelectorAll('link[rel=stylesheet]')) {
+    const n = document.createElement('link');
+    n.rel = 'stylesheet';
+    n.href = base + l.getAttribute('href');
+    document.head.append(n);
+  }
+  doc.querySelectorAll('script').forEach((s) => s.remove());
+  document.title = doc.title;
+  document.body.className = doc.body.className;
+  document.body.innerHTML = doc.body.innerHTML.replaceAll('src="../icons/', 'src="/extension/icons/');
+  await import(`${base}${page}.js`);
+  document.documentElement.dataset.ready = '1';
+</script>
+</body>
+</html>
