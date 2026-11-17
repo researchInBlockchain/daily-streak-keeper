@@ -74,12 +74,10 @@ python scripts/package.py
 
 Regenerate icons with `python scripts/make_icons.py` (needs Pillow).
 
-## Publishing to the Chrome Web Store
+## Publishing to stores
 
-1. Register a developer account at the Chrome Web Store Developer Dashboard (one-time US$5 fee).
-2. Run `python scripts/package.py` and upload `dist/daily-streak-keeper-<version>.zip`.
-3. Fill in the listing and privacy tabs with [`store/listing.md`](store/listing.md), and link [`store/privacy-policy.md`](store/privacy-policy.md) as the privacy policy.
-4. Add screenshots (1280×800) of the popup and dashboard.
+- **Microsoft Edge Add-ons (free):** follow [`store/edge/SUBMIT.md`](store/edge/SUBMIT.md). The listing text, reviewer notes, logo, promo tiles and 1280×800 screenshots are all in [`store/edge/`](store/edge/). Regenerate the images with `python scripts/make_store_images.py` (run from `scripts/`).
+- **Chrome Web Store (US$5 one-time fee):** upload `dist/daily-streak-keeper-<version>.zip`, use [`store/listing.md`](store/listing.md) for the listing and privacy tabs, and link the privacy policy at https://researchinblockchain.github.io/daily-streak-keeper/privacy.html. The images in `store/edge/` work there too.
 
 ## Also in this repo
 

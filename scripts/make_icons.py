@@ -1,12 +1,15 @@
-"""Draws the extension icons (original artwork) into extension/icons/."""
+"""Draws the extension icons (original artwork) into extension/icons/.
+draw_icon() is also used by make_store_images.py."""
 from pathlib import Path
+
 from PIL import Image, ImageDraw
 
 OUT = Path(__file__).resolve().parent.parent / "extension" / "icons"
-OUT.mkdir(parents=True, exist_ok=True)
 S = 1024
 
-def make():
+
+def draw_icon():
+    """The icon at 1024x1024, RGBA."""
     img = Image.new("RGBA", (S, S), (0, 0, 0, 0))
     # vertical indigo -> violet gradient tile with rounded corners
     grad = Image.new("RGBA", (S, S))
@@ -27,8 +30,10 @@ def make():
     d.ellipse([750, 120, 900, 270], fill=(251, 176, 59, 255), outline="white", width=26)
     return img
 
-big = make()
-for size in (16, 32, 48, 128):
-    big.resize((size, size), Image.LANCZOS).save(OUT / f"icon{size}.png")
-big.resize((440, 440), Image.LANCZOS).save(OUT.parent.parent / "store" / "icon-preview.png") if (OUT.parent.parent / "store").exists() else None
-print("icons written to", OUT)
+
+if __name__ == "__main__":
+    OUT.mkdir(parents=True, exist_ok=True)
+    big = draw_icon()
+    for size in (16, 32, 48, 128):
+        big.resize((size, size), Image.LANCZOS).save(OUT / f"icon{size}.png")
+    print("icons written to", OUT)

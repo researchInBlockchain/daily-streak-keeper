@@ -1,7 +1,8 @@
 <!doctype html>
 <!-- Renders extension/ui/<page>.html with fake data for screenshots.
      Serve the repo root (python -m http.server) and open
-     /scripts/screens/harness.html?page=dashboard&state=accepted   (state: accepted | ready | pending) -->
+     /scripts/screens/harness.html?page=dashboard&state=accepted   (state: accepted | ready | pending;
+     optional &scroll=setup | how | history | settings | log) -->
 <html lang="en">
 <head><meta charset="utf-8"><title>UI harness</title></head>
 <body>
@@ -22,6 +23,13 @@
   document.body.className = doc.body.className;
   document.body.innerHTML = doc.body.innerHTML.replaceAll('src="../icons/', 'src="/extension/icons/');
   await import(`${base}${page}.js`);
+  // ?scroll=<section id> : show the page starting at that section. Earlier sections are hidden
+  // rather than scrolled past, because headless Chrome screenshots don't paint far-scrolled areas.
+  const target = document.getElementById(params.get('scroll') || '');
+  if (target) {
+    let el = target.previousElementSibling;
+    while (el) { el.style.display = 'none'; el = el.previousElementSibling; }
+  }
   document.documentElement.dataset.ready = '1';
 </script>
 </body>
